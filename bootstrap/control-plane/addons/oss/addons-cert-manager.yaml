@@ -34,10 +34,10 @@ spec:
         name: jetstack
         namespace: flux-system
       version: ">=1.0.0"
+      valuesFiles:
+        - $values/{{ .Values.metadata.annotations.addons_repo_basepath }}charts/addons/{{values.addonChart}}/values.yaml
+        - $values/{{ .Values.metadata.annotations.addons_repo_basepath }}environments/{{ .Values.metadata.labels.environment }}/addons/{{values.addonChart}}/values.yaml
+        - $values/{{ .Values.metadata.annotations.addons_repo_basepath }}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
   interval: 1h0m0s
-  valuesFiles:
-    - $values/{{ .Values.metadata.annotations.addons_repo_basepath }}charts/addons/{{values.addonChart}}/values.yaml
-    - $values/{{ .Values.metadata.annotations.addons_repo_basepath }}environments/{{ .Values.metadata.labels.environment }}/addons/{{values.addonChart}}/values.yaml
-    - $values/{{ .Values.metadata.annotations.addons_repo_basepath }}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
   values:
     installCRDs: true
