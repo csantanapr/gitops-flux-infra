@@ -26,6 +26,9 @@ spec:
   releaseName: cert-manager
   targetNamespace: kube-system
   storageNamespace: kube-system
+  # This should probably be an enable key vs a suspend key in the API Spec because suspend would require the inverse,
+  # if value of this label is true then suspend is false so not ideal.
+  suspend: {{metadata.labels.enable_cert_manager}}
   chart:
     spec:
       chart: cert-manager
@@ -35,9 +38,9 @@ spec:
         namespace: flux-system
       version: ">=1.0.0"
       valuesFiles:
-        - $values/{{ .Values.metadata.annotations.addons_repo_basepath }}charts/addons/{{values.addonChart}}/values.yaml
-        - $values/{{ .Values.metadata.annotations.addons_repo_basepath }}environments/{{ .Values.metadata.labels.environment }}/addons/{{values.addonChart}}/values.yaml
-        - $values/{{ .Values.metadata.annotations.addons_repo_basepath }}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
+        - $values/{{metadata.annotations.addons_repo_basepath}}charts/addons/{{values.addonChart}}/values.yaml
+        - $values/{{metadata.annotations.addons_repo_basepath}}environments/{{metadata.labels.environment}}/addons/{{values.addonChart}}/values.yaml
+        - $values/{(metadata.annotations.addons_repo_basepath}}clusters/{{name}}/addons/{{values.addonChart}}/values.yaml
   interval: 1h0m0s
   values:
     installCRDs: true
